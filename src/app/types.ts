@@ -1,29 +1,10 @@
-type Hero = {
-  id: string;
+type Pokemon = {
+  attack: number;
+  defense: number;
+  generation: number;
+  hit_points: number;
   name: string;
-  biography: Biography;
-  image: {
-    url: string;
-  };
-  powerstats: PowerStats;
+  number: number;
 };
 
-type PowerStats = {
-  combat: string;
-  durability: string;
-  intelligence: string;
-  power: string;
-  speed: string;
-  strength: string;
-  [key: string]: string;
-};
-
-type Biography = {
-  ["full-name"]: string;
-  alignment: string;
-  ["alter-egos"]: string;
-  ["first-appearance"]: string;
-  [key: string]: string;
-};
-
-export type { Hero, PowerStats };
+export type { Pokemon };

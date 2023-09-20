@@ -1,26 +1,28 @@
 import { Box, Button, CircularProgress, IconButton, Toolbar, Typography, useTheme } from "@mui/material";
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { AppBar, } from "@src/common-components";
 import * as styles from "./styles";
 import useHome from "./hooks";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { ColorModeContext } from "@src/theme";
 import { Mode } from "../constants";
+import PokemonCard from "../PokemonCard";
 
 export default function Home() {
-  const { onSubmit, isLoading, register, history, onRemoveHero, onClickShowHero, onClickCloseModal, hero, isModalOpen } = useHome();
+  const { fetchMoreData, onClickShowPokemon, onClickCloseModal, items, hasMore, pokemon, isModalOpen } = useHome();
 
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
 
   return (
-    <div css={styles.container}>
+    <Box css={styles.container}>
 
       <AppBar position="absolute">
         <Toolbar style={{ 'justifyContent': 'space-between' }}>
           <Typography component="h1" variant="h6" color="inherit" noWrap>
-            Octup - SuperHero App
+            Guardio - Pokemon App
           </Typography>
 
           <Box
@@ -40,20 +42,26 @@ export default function Home() {
         </Toolbar>
       </AppBar>
 
-      <div css={styles.card}>
+      <Box css={styles.card} id="scrollableDiv" style={{ height: "80%", overflowY: "scroll" }}>
 
-        {/* {isLoading ? (
-          <CircularProgress color="inherit" />
-        ) : (
-          <Button type="submit" variant="contained" css={styles.submitButton} onClick={onSubmit}>
-            Search
-          </Button>
-        )}
+        <InfiniteScroll
+          dataLength={items.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<CircularProgress color="inherit" />}
+          scrollableTarget="scrollableDiv"
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+          {items.map((pokemon, index) => <PokemonCard key={index} pokemon={pokemon} onClickShowPokemon={() => onClickShowPokemon(pokemon)} onClickRemove={() => { }} />)}
+        </InfiniteScroll>
 
-        {history.map((hero: Hero) => <HeroCard key={hero.id} hero={hero} onClickShowHero={() => onClickShowHero(hero)} onClickRemove={() => onRemoveHero(hero.id)} />)} */}
-
-      </div>
-    </div>
+        {/* <HeroDialog isOpen={isModalOpen} hero={hero} onClose={onClickCloseModal} /> */}
+      </Box>
+    </Box>
   );
 };
 

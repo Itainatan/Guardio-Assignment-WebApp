@@ -5,7 +5,7 @@ import * as styles from "./styles";
 import Home from "@src/app/Home";
 import { useMemo, useState } from "react";
 import { ColorModeContext } from "@src/theme";
-import { useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { Mode } from "./constants";
 
 function App() {
@@ -34,10 +34,10 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <div css={styles.container}>
+        <Box css={styles.container}>
           <Toast />
           <Home />
-        </div>
+        </Box>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

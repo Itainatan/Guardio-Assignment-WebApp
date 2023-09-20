@@ -1,52 +1,41 @@
-import { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../constants";
-import { FormValues } from "./types";
 import { toast } from "react-toastify";
-import { Hero } from "../types";
+import { Pokemon } from "../types";
 
 const useHome = () => {
-  const [history, setHistory] = useState<Hero[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [hero, setHero] = useState<Hero | null>(null);
+  const [items, setItems] = useState<Pokemon[]>([]);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
 
-  const { handleSubmit, getValues, register } = useForm<FormValues>();
+  useEffect(() => {
+    fetchMoreData();
+  }, []);
 
-  const onSubmit = useCallback(async () => {
+  const fetchMoreData = async () => {
     try {
-      setIsLoading(true);
-
-      const { search } = getValues();
-
-      const { data }: any = await axios.get(
-        `${API_URL}/get-superhero/${search}`
-      );
+      const { data } = await axios.get(`${API_URL}?page=${page}`);
 
       if (data.response === "error") {
         toast.error(data.error);
       } else {
-        setHistory([...history, ...data.results]);
+        if (data.length) {
+          setItems([...items, ...data]);
+          setPage(page + 1)
+        } else {
+          setHasMore(false)
+        }
       }
-
-      setIsLoading(false);
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
     }
-  }, [history]);
+  };
 
-  const onRemoveHero = useCallback(
-    (id: string) => {
-      const newHistory = [...history].filter((hero) => hero.id !== id);
-      setHistory(newHistory);
-    },
-    [history]
-  );
-
-  const onClickShowHero = useCallback((hero: Hero) => {
-    setHero(hero);
+  const onClickShowPokemon = useCallback((hero: Pokemon) => {
+    setPokemon(hero);
     setIsModalOpen(true);
   }, []);
 
@@ -55,15 +44,13 @@ const useHome = () => {
   }, []);
 
   return {
-    onSubmit: handleSubmit(onSubmit),
-    isLoading,
-    register,
-    history,
-    onRemoveHero,
-    onClickShowHero,
+    fetchMoreData,
+    onClickShowPokemon,
     onClickCloseModal,
-    hero,
+    items,
+    pokemon,
     isModalOpen,
+    hasMore,
   };
 };
 

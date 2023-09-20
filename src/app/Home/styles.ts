@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 
 export const container = css`
-  background-color: #eef2f6;
   color: #000;
   font-family: Roboto, sans-serif;
   width: 100vw;
@@ -26,6 +25,8 @@ export const card = css`
   flex-direction: column;
   margin-top: 5vh;
   padding: 50px;
+  width: 100%;
+  align-items: center;
 `;
 
 export const input = css`
