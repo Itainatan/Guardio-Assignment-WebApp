@@ -19,17 +19,14 @@ const useHome = () => {
     try {
       const { data } = await axios.get(`${API_URL}?page=${page}`);
 
-      if (data.response === "error") {
-        toast.error(data.error);
+      if (data.length) {
+        setItems([...items, ...data]);
+        setPage(page + 1);
       } else {
-        if (data.length) {
-          setItems([...items, ...data]);
-          setPage(page + 1)
-        } else {
-          setHasMore(false)
-        }
+        setHasMore(false);
       }
     } catch (error) {
+      toast.error("there was an error, please try again");
       console.log(error);
     }
   };

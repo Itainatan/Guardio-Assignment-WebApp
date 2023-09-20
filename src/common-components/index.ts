@@ -1,4 +1,5 @@
 import Toast from "./Toast";
-import { AppBar } from "./AppBar";
+import AppBar from "./AppBar";
+import Dialog from './Dialog'
 
-export { Toast, AppBar };
+export { Toast, AppBar, Dialog };

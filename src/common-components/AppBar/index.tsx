@@ -11,8 +11,7 @@ const Header = styled(MuiAppBar, {})<MuiAppBarProps>(() => ({
   backgroundColor: "#7e26f1",
 }));
 
-
-export function AppBar() {
+export default function AppBar() {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
 

@@ -1,7 +1,7 @@
-import { Hero } from "../types";
+import { Pokemon } from "../types";
 
 type Props = {
-  hero: Hero | null;
+  pokemon: Pokemon | null;
   onClose: () => void;
   isOpen: boolean;
 };

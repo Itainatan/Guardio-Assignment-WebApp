@@ -1,13 +1,10 @@
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import { Props } from './types';
-import { CardMedia } from '@mui/material';
-import * as styles from './styles';
+import { Props } from './types'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiPaper-root': {
@@ -18,12 +15,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-export default function HeroDialog({ onClose, isOpen, hero }: Props) {
+export default function DialogComponent({ open, title, onClose, children }: Props) {
     return (
-        <BootstrapDialog open={isOpen} onClose={onClose}>
-            <DialogTitle sx={{ m: 0, p: 2 }} css={styles.titleContainer}>
+        <BootstrapDialog open={open} onClose={onClose}>
+            <DialogTitle sx={{ m: 0, p: 2 }} display="flex" justifyContent="end">
                 <Typography gutterBottom variant="h5" component="div">
-                    {hero?.name}
+                    {title}
                 </Typography>
                 <IconButton
                     aria-label="close"
@@ -38,22 +35,9 @@ export default function HeroDialog({ onClose, isOpen, hero }: Props) {
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
-            <DialogContent dividers css={styles.mainContainer}>
-                <CardMedia
-                    component="img"
-                    alt={hero?.name}
-                    height="300"
-                    image={hero?.image.url}
-                    css={styles.profilePicture}
-                />
-                {hero?.biography && Object.keys(hero?.biography).map((key, index) =>
-                    <Typography key={index} variant="body2" color="text.secondary" gutterBottom paddingTop={1}>
-                        {key.toUpperCase()} : {hero?.biography[key]}
-                    </Typography>
-                )}
-            </DialogContent>
-
+            {children}
         </BootstrapDialog>
-
     )
+
 }
+
