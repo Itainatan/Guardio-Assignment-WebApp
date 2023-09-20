@@ -3,38 +3,17 @@ import Toast from "@src/common-components/Toast";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import * as styles from "./styles";
 import Home from "@src/app/Home";
-import { useMemo, useState } from "react";
 import { ColorModeContext } from "@src/theme";
-import { Box, useMediaQuery } from "@mui/material";
-import { Mode } from "./constants";
+import { Box, } from "@mui/material";
+import { useTheme } from "@src/theme/hooks";
 
 function App() {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-  const [mode, setMode] = useState<Mode>(prefersDarkMode ? Mode.Dark : Mode.Light);
-  const colorMode = useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode ===  Mode.Light ?  Mode.Dark :  Mode.Light));
-      },
-    }),
-    []
-  );
-
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-        },
-      }),
-    [mode]
-  );
+  const { theme, colorMode } = useTheme();
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <Box css={styles.container}>
+        <Box css={styles.container(theme)}>
           <Toast />
           <Home />
         </Box>
