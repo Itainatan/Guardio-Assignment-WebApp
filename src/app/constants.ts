@@ -5,5 +5,9 @@ enum Mode {
     Light = "light"
 }
 
+enum SortOrder {
+    Ascending = 'ascending',
+    Descending = 'descending',
+}
 
-export { API_URL, Mode};
+export { API_URL, Mode, SortOrder };

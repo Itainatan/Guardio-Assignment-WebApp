@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { API_URL } from "../constants";
+import { API_URL, SortOrder } from "../constants";
 import { toast } from "react-toastify";
 import { Pokemon } from "../types";
 
@@ -10,6 +10,21 @@ const useHome = () => {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
+  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Descending);
+
+  const handleSort = (order: SortOrder) => {
+    let sortedData = [...items];
+
+    if (sortOrder === SortOrder.Ascending) {
+      sortedData.sort((a, b) => a.number - b.number);
+    } else if (sortOrder === SortOrder.Descending) {
+      sortedData.sort((a, b) => b.number - a.number);
+    }
+
+    setItems(sortedData);
+    setSortOrder(order);
+    toast.info('List sorted');
+  };
 
   useEffect(() => {
     fetchMoreData();
@@ -22,6 +37,7 @@ const useHome = () => {
       if (data.length) {
         setItems([...items, ...data]);
         setPage(page + 1);
+        // handleSort();
       } else {
         setHasMore(false);
       }
@@ -48,6 +64,8 @@ const useHome = () => {
     pokemon,
     isModalOpen,
     hasMore,
+    handleSort,
+    sortOrder,
   };
 };
 

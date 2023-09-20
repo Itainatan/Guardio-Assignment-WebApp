@@ -11,6 +11,7 @@ export default function HeroCard({ pokemon, onClickRemove, onClickShowPokemon }:
         <Card sx={{ maxWidth: 500, margin: 2 }}>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">{pokemon.name}</Typography>
+                <Typography gutterBottom variant="h6" component="div">Number: {pokemon.number}</Typography>
                 <Typography gutterBottom variant="h6" component="div">Attack: {pokemon.attack}</Typography>
                 <Typography gutterBottom variant="h6" component="div">Defense: {pokemon.defense}</Typography>
             </CardContent>
