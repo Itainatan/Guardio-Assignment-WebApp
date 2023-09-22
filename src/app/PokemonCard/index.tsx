@@ -16,8 +16,7 @@ export default function PokemonCard({ pokemon, onClickShowPokemon }: Props) {
                         <>
                             <Typography gutterBottom variant="h5" component="div">{pokemon.name}</Typography>
                             <Typography gutterBottom variant="h6" component="div">Number: {pokemon.number}</Typography>
-                            <Typography gutterBottom variant="h6" component="div">Attack: {pokemon.attack}</Typography>
-                            <Typography gutterBottom variant="h6" component="div">Defense: {pokemon.defense}</Typography>
+                            <Typography gutterBottom variant="h6" component="div">Type: {pokemon.type_one}</Typography>
                         </>
                     ) : <CircularProgress />
                 }

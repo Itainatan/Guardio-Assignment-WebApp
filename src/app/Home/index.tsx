@@ -7,13 +7,13 @@ import SortAndFilter from "../SortAndFilter";
 import { PokemonList } from "../PokemonList";
 
 export default function Home() {
-  const { fetchMoreData, onClickShowPokemon, onClickCloseModal, items, itemsSize, pokemon, isModalOpen, handleSort } = useHome();
+  const { items, itemsSize, pokemon, isModalOpen, fetchMoreData, onClickShowPokemon, onClickCloseModal, handleSort, handleFilter, } = useHome();
 
   return (
     <Box css={styles.container}>
       <AppBar />
       <Box css={styles.card} id="scrollableDiv" style={{ height: "80%" }}>
-        <SortAndFilter onSort={handleSort} />
+        <SortAndFilter onSort={handleSort} onFilter={handleFilter} />
         <PokemonList items={items} itemsSize={itemsSize} fetchMoreData={fetchMoreData} onClickShowPokemon={onClickShowPokemon} />
         <PokemonDialog isOpen={isModalOpen} pokemon={pokemon} onClose={onClickCloseModal} />
       </Box>

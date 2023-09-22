@@ -8,6 +8,7 @@ const useHome = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
 
+  const [data, setData] = useState<Pokemon[]>([]);
   const [items, setItems] = useState<Pokemon[]>([]);
   const [itemsSize, setItemsSize] = useState<number>(10000);
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -15,16 +16,25 @@ const useHome = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleSort = (order: SortOrder) => {
-    let sortedData = [...items];
+    let sortedItems = [...items];
 
     if (order === SortOrder.Ascending) {
-      sortedData.sort((a, b) => a.number - b.number);
+      sortedItems.sort((a, b) => a.number - b.number);
     } else if (order === SortOrder.Descending) {
-      sortedData.sort((a, b) => b.number - a.number);
+      sortedItems.sort((a, b) => b.number - a.number);
     }
 
-    setItems(sortedData);
+    setItems(sortedItems);
     toast.info('List sorted');
+  };
+
+  const handleFilter = (filter: string) => {
+    if (!filter) setItems([...data]);
+    else {
+      const filteredItems = items.filter(item => item.type_one.toLowerCase() === filter.toLowerCase());
+      setItems(filteredItems);
+      toast.info('List Filtered');
+    }
   };
 
   const fetchMoreData = async () => {
@@ -37,6 +47,7 @@ const useHome = () => {
 
         if (data.list.length) {
           setItems([...items, ...data.list]);
+          setData([...items, ...data.list]);
           setPage(page + 1);
         }
 
@@ -69,6 +80,7 @@ const useHome = () => {
     isModalOpen,
     handleSort,
     itemsSize,
+    handleFilter,
   };
 };
 
