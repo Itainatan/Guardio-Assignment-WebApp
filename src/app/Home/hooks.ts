@@ -6,10 +6,13 @@ import { Pokemon } from "../types";
 
 const useHome = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [items, setItems] = useState<Pokemon[]>([]);
-  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
+
+  const [items, setItems] = useState<Pokemon[]>([]);
+  const [itemsSize, setItemsSize] = useState<number>(10000);
+  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Descending);
 
   const handleSort = (order: SortOrder) => {
@@ -32,8 +35,10 @@ const useHome = () => {
         setIsLoading(true);
         const { data } = await axios.get(`${API_URL}?page=${page}`);
 
-        if (data.length) {
-          setItems([...items, ...data]);
+        page === 1 && setItemsSize(data.totalLength);
+
+        if (data.list.length) {
+          setItems([...items, ...data.list]);
           setPage(page + 1);
         }
 
@@ -66,6 +71,7 @@ const useHome = () => {
     isModalOpen,
     handleSort,
     sortOrder,
+    itemsSize,
   };
 };
 
