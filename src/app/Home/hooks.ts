@@ -13,19 +13,17 @@ const useHome = () => {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Descending);
 
   const handleSort = (order: SortOrder) => {
     let sortedData = [...items];
 
-    if (sortOrder === SortOrder.Ascending) {
+    if (order === SortOrder.Ascending) {
       sortedData.sort((a, b) => a.number - b.number);
-    } else if (sortOrder === SortOrder.Descending) {
+    } else if (order === SortOrder.Descending) {
       sortedData.sort((a, b) => b.number - a.number);
     }
 
     setItems(sortedData);
-    setSortOrder(order);
     toast.info('List sorted');
   };
 
@@ -70,7 +68,6 @@ const useHome = () => {
     pokemon,
     isModalOpen,
     handleSort,
-    sortOrder,
     itemsSize,
   };
 };

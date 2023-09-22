@@ -7,9 +7,9 @@ import Typography from '@mui/material/Typography';
 import { Props } from './types';
 import { CircularProgress } from '@mui/material';
 
-export default function PokemonCard({ pokemon, onClickRemove, onClickShowPokemon }: Props) {
+export default function PokemonCard({ pokemon, onClickShowPokemon }: Props) {
     return (
-        <Card sx={{ width: 300, margin: 2, height: 270 }}>
+        <Card sx={{ width: 300, margin: 2, height: 270 }} >
             <CardContent sx={{ height: 180 }}>
                 {
                     !!pokemon ? (
@@ -24,7 +24,7 @@ export default function PokemonCard({ pokemon, onClickRemove, onClickShowPokemon
             </CardContent>
             <CardActions>
                 <Button size="small" onClick={onClickShowPokemon}>Learn More</Button>
-                <Button size="small" onClick={onClickRemove} color='warning'>Remove</Button>
+                {/* <Button size="small" onClick={onClickCaptured} color='warning'>Add To Captured</Button> */}
             </CardActions>
         </Card>
     );
