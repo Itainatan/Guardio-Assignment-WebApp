@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
 import { API_URL, SortOrder } from "../constants";
 import { toast } from "react-toastify";
 import { Pokemon } from "../types";
 
 const useHome = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [items, setItems] = useState<Pokemon[]>([]);
-  const [hasMore, setHasMore] = useState<boolean>(true);
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
@@ -26,25 +26,26 @@ const useHome = () => {
     toast.info('List sorted');
   };
 
-  useEffect(() => {
-    fetchMoreData();
-  }, []);
-
   const fetchMoreData = async () => {
-    try {
-      const { data } = await axios.get(`${API_URL}?page=${page}`);
+    if (!isLoading) {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(`${API_URL}?page=${page}`);
 
-      if (data.length) {
-        setItems([...items, ...data]);
-        setPage(page + 1);
-        // handleSort();
-      } else {
-        setHasMore(false);
+        if (data.length) {
+          setItems([...items, ...data]);
+          setPage(page + 1);
+        }
+
+        setIsLoading(false);
+      } catch (error) {
+        toast.error("there was an error, please try again");
+        setIsLoading(false)
+
+        console.log(error);
       }
-    } catch (error) {
-      toast.error("there was an error, please try again");
-      console.log(error);
     }
+
   };
 
   const onClickShowPokemon = useCallback((hero: Pokemon) => {
@@ -63,7 +64,6 @@ const useHome = () => {
     items,
     pokemon,
     isModalOpen,
-    hasMore,
     handleSort,
     sortOrder,
   };

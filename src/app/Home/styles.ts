@@ -17,5 +17,4 @@ export const card = css`
   margin-top: 5vh;
   padding: 50px;
   width: 100%;
-  align-items: center;
 `;
