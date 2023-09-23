@@ -1,6 +1,6 @@
 ## guardio home assignment 
 
-💻 Built with React | TypeScript | React-Window | MUI | CSS Emotion, React-Infinite-scroll .
+💻 Built with React | TypeScript | React-Window | MUI | CSS Emotion .
 
 To run the application - 
 1. npm install
