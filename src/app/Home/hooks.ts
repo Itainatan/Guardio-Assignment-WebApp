@@ -16,7 +16,7 @@ const useHome = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [shouldFetch, setShouldFetch] = useState<boolean>(false);
 
-  const [filter, setFilter] = useState<string>("");
+  const [filterByType, setFilterByType] = useState<string>("");
   const [sort, setSort] = useState<SortOrder>(SortOrder.Ascending);
 
   const listRef = useRef<FixedSizeList | null>(null);
@@ -35,7 +35,7 @@ const useHome = () => {
 
         const { data } = await axios.get(
           `${API_URL}?page=${page}&sort=${sort}${
-            filter && `&filterBy=${filter}`
+            filterByType && `&filters=${`type_one=${filterByType.replace(/\s/g, '')}`}`
           }`
         );
 
@@ -53,7 +53,7 @@ const useHome = () => {
         console.log(error);
       }
     }
-  }, [filter, page, items, isLoading]);
+  }, [filterByType, page, items, isLoading]);
 
   const onClickShowPokemon = useCallback((hero: Pokemon) => {
     setPokemon(hero);
@@ -65,8 +65,10 @@ const useHome = () => {
   }, []);
 
   const onFilter = (str: string) => {
-    setFilter(str);
-    reset();
+    if (str.toLowerCase() !== filterByType.toLowerCase()) {
+      setFilterByType(str);
+      reset();
+    }
   };
 
   const handleSort = (order: SortOrder) => {
