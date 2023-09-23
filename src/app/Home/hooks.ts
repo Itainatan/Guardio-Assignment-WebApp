@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { API_URL, SortOrder } from "../constants";
 import { toast } from "react-toastify";
 import { Pokemon } from "../types";
+import { FixedSizeList } from "react-window";
 
 const useHome = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -17,6 +18,8 @@ const useHome = () => {
 
   const [filter, setFilter] = useState<string>("");
   const [sort, setSort] = useState<SortOrder>(SortOrder.Ascending);
+
+  const listRef = useRef<FixedSizeList | null>(null);
 
   useEffect(() => {
     if (shouldFetch) {
@@ -63,16 +66,19 @@ const useHome = () => {
 
   const onFilter = (str: string) => {
     setFilter(str);
-    setPage(1);
-    setItems([]);
-    setShouldFetch(true);
+    reset();
   };
 
   const handleSort = (order: SortOrder) => {
     setSort(order);
+    reset();
+  };
+
+  const reset = () => {
     setPage(1);
     setItems([]);
     setShouldFetch(true);
+    listRef.current && listRef.current.scrollToItem(0);
   };
 
   return {
@@ -86,6 +92,7 @@ const useHome = () => {
     isModalOpen,
     itemsSize,
     sort,
+    listRef,
   };
 };
 

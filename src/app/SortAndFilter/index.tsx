@@ -7,7 +7,7 @@ const SortAndFilter = ({ onSort, onFilter, sortValue, }: Props) => {
   const [filter, setFilter] = useState<string>('');
 
   return (
-    <Box display="flex" columnGap={2}>
+    <Box display="flex" columnGap={2} margin={2}>
       <Box display="flex">
         <Box display="flex" alignItems='center'>
           <Typography>{SortOrder.Ascending.toUpperCase()}</Typography>

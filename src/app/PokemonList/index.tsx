@@ -4,7 +4,7 @@ import InfiniteLoader from "react-window-infinite-loader";
 import PokemonCard from "../PokemonCard";
 import { Props } from "./types";
 
-export function PokemonList({ items, itemsSize, fetchMoreData, onClickShowPokemon }: Props) {
+export function PokemonList({ items, itemsSize, fetchMoreData, onClickShowPokemon, listRef }: Props) {
     return (
         <AutoSizer>
             {
@@ -18,11 +18,15 @@ export function PokemonList({ items, itemsSize, fetchMoreData, onClickShowPokemo
                             <List
                                 className="List"
                                 height={height}
+                                width={width}
                                 itemCount={itemsSize}
                                 itemSize={240}
                                 onItemsRendered={onItemsRendered}
-                                ref={ref}
-                                width={width}
+                                ref={(list) => {
+                                    ref(list);
+                                    // @ts-ignore
+                                    listRef.current = list;
+                                }}
                             >
                                 {({ index, style }) =>
                                     <div style={style}>
