@@ -1,4 +1,4 @@
-import { Box, Button, FormLabel, Radio, TextField, Typography } from '@mui/material';
+import { Box, Button, Radio, TextField, Typography } from '@mui/material';
 import { SortOrder } from '../constants';
 import { useState } from 'react';
 import { Props } from './types';
