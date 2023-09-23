@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Pokemon } from "../types";
 import { FixedSizeList } from "react-window";
 
-const useHome = () => {
+export default function useHome() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
 
@@ -23,8 +23,8 @@ const useHome = () => {
 
   useEffect(() => {
     if (shouldFetch) {
-      fetchMoreData();
       setShouldFetch(false);
+      fetchMoreData();
     }
   }, [shouldFetch]);
 
@@ -35,7 +35,8 @@ const useHome = () => {
 
         const { data } = await axios.get(
           `${API_URL}?page=${page}&sort=${sort}${
-            filterByType && `&filters=${`type_one=${filterByType.replace(/\s/g, '')}`}`
+            filterByType &&
+            `&filters=${`type_one=${filterByType.replace(/\s/g, "")}`}`
           }`
         );
 
@@ -64,24 +65,27 @@ const useHome = () => {
     setIsModalOpen(false);
   }, []);
 
-  const onFilter = (str: string) => {
-    if (str.toLowerCase() !== filterByType.toLowerCase()) {
-      setFilterByType(str);
-      reset();
-    }
-  };
-
-  const handleSort = (order: SortOrder) => {
-    setSort(order);
-    reset();
-  };
-
   const reset = () => {
     setPage(1);
     setItems([]);
     setShouldFetch(true);
     listRef.current && listRef.current.scrollToItem(0);
   };
+
+  const onFilter = useCallback(
+    (str: string) => {
+      if (str.toLowerCase() !== filterByType.toLowerCase()) {
+        setFilterByType(str);
+        reset();
+      }
+    },
+    [setFilterByType, reset]
+  );
+
+  const handleSort = useCallback((order: SortOrder) => {
+    setSort(order);
+    reset();
+  }, [setSort, reset]);
 
   return {
     fetchMoreData,
@@ -96,6 +100,4 @@ const useHome = () => {
     sort,
     listRef,
   };
-};
-
-export default useHome;
+}
