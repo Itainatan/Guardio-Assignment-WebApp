@@ -1,15 +1,29 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, FormLabel, Radio, TextField, Typography } from '@mui/material';
 import { SortOrder } from '../constants';
 import { useState } from 'react';
+import { Props } from './types';
 
-const SortAndFilter = ({ onSort, onFilter }: { onSort: (order: SortOrder) => void; onFilter: (order: string) => void; }) => {
+const SortAndFilter = ({ onSort, onFilter, sortValue, }: Props) => {
   const [filter, setFilter] = useState<string>('');
 
   return (
-    <Box display="flex">
-      <Button variant='contained' sx={{ m: 1 }} onClick={() => onSort(SortOrder.Ascending)}>Sort Ascending</Button>
-      <Button variant='contained' sx={{ m: 1 }} onClick={() => onSort(SortOrder.Descending)}>Sort Descending</Button>
-
+    <Box display="flex" columnGap={2}>
+      <Box display="flex">
+        <Box display="flex" alignItems='center'>
+          <Typography>{SortOrder.Ascending.toUpperCase()}</Typography>
+          <Radio
+            checked={sortValue === SortOrder.Ascending}
+            onChange={() => onSort(SortOrder.Ascending)}
+          />
+        </Box>
+        <Box display="flex" alignItems='center'>
+          <Typography>{SortOrder.Descending.toUpperCase()}</Typography>
+          <Radio
+            checked={sortValue === SortOrder.Descending}
+            onChange={() => onSort(SortOrder.Descending)}
+          />
+        </Box>
+      </Box>
       <Box>
         <TextField placeholder='filter by type..' onChange={(e) => setFilter(e.target.value)} value={filter} />
         <Button variant='outlined' sx={{ m: 1 }} onClick={() => onFilter(filter)}>Filter</Button>

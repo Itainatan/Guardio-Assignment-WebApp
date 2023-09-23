@@ -19,7 +19,7 @@ export function PokemonList({ items, itemsSize, fetchMoreData, onClickShowPokemo
                                 className="List"
                                 height={height}
                                 itemCount={itemsSize}
-                                itemSize={300}
+                                itemSize={240}
                                 onItemsRendered={onItemsRendered}
                                 ref={ref}
                                 width={width}

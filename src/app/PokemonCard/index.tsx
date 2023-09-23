@@ -9,8 +9,8 @@ import { CircularProgress } from '@mui/material';
 
 export default function PokemonCard({ pokemon, onClickShowPokemon }: Props) {
     return (
-        <Card sx={{ width: 300, margin: 2, height: 270 }} >
-            <CardContent sx={{ height: 180 }}>
+        <Card sx={{ width: 300, margin: 2, height: 210 }} >
+            <CardContent sx={{ height: 120 }}>
                 {
                     !!pokemon ? (
                         <>
