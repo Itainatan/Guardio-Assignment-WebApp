@@ -1,15 +1,18 @@
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Props } from './types';
 import { CircularProgress } from '@mui/material';
+import * as styles from './styles'
+import { useTheme } from '@src/theme/hooks';
 
 export default function PokemonCard({ pokemon, onClickShowPokemon }: Props) {
+
+    const { theme } = useTheme()
     return (
-        <Card sx={{ width: 300, margin: 2, height: 210 }} >
+        <Card css={styles.container} >
             <CardContent sx={{ height: 120 }}>
                 {
                     !!pokemon ? (
