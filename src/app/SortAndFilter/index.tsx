@@ -25,7 +25,7 @@ const SortAndFilter = ({ onSort, onFilter, sortValue, }: Props) => {
         </Box>
       </Box>
       <Box>
-        <TextField placeholder='filter by type..' onChange={(e) => setFilter(e.target.value)} value={filter} />
+        <TextField placeholder='filter by type_one..' helperText='enter many values with , between' onChange={(e) => setFilter(e.target.value)} value={filter} />
         <Button variant='outlined' sx={{ m: 1 }} onClick={() => onFilter(filter)}>Filter</Button>
         <Button variant='outlined' sx={{ m: 1 }} onClick={() => { setFilter(''); onFilter('') }}>Clear</Button>
       </Box>
